@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Premium Video</title>
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-user-drag: none;
+      -moz-window-dragging: none;
+      font-family: 'Open Sans', Arial, sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      color: #333;
+    }
+
+    /* কভার পিকচার - ফেসবুক স্টাইল */
+    .header {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      overflow: hidden;
+      /* Bottom থেকে Top-এ খুব হালকা সাদা গ্রেডিয়েন্ট - প্রিমিয়াম ভাইব */
+      background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 0.02) 0%,
+        rgba(255, 255, 255, 0.05) 30%,
+        rgba(255, 255, 255, 0.10) 60%,
+        rgba(255, 255, 255, 0.15) 100%
+      );
+    }
+
+    .main-cover {
+      width: 100%;
+      height: 100%;
+    }
+
+    .main-cover-pic {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* প্রোফাইল পিকচার - কভারের উপরে */
+    .main-profile {
+      position: absolute;
+      top: 50px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .main-profile-pic {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      padding: 1px;
+      border: 5px solid #1877f2;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .profile-name {
+      color: white;
+      margin-left: 12px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .name {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .verified-icon {
+      color: #1877f2;
+      font-size: 18px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .rating {
+      font-size: 14px;
+      color: #FAF332;
+      font-weight: 500;
+    }
+
+    .rating-icon {
+      color: #FAF332;
+      margin-right: 4px;
+    }
+
+    /* Contact Button */
+    .contact-btn {
+      margin-top: 10px;
+      margin-left: 12px;
+    }
+
+    .contact-btn button {
+      background: #1877f2;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .contact-btn button:hover {
+      background: #166fe5;
+    }
+
+    /* Popup Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+
+    .social-links a {
+      display: block;
+      margin: 12px 0;
+      padding: 10px;
+      background: #f0f2f5;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .social-links a:hover {
+      background: #e4e6eb;
+    }
+
+    .social-links i {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    /* কন্টেন্ট কন্টেইনার */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    /* Pinterest-এর মতো Masonry Grid */
+    .contents {
+      column-count: 2;
+      column-gap: 15px;
+      padding: 10px 0;
+    }
+
+    .image-content {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      break-inside: avoid;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .image-content:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.18);
+      z-index: 5;
+    }
+
+    /* রেসপন্সিভ গ্রিড */
+    @media (min-width: 600px) {
+      .contents { column-count: 3; }
+    }
+    @media (min-width: 900px) {
+      .contents { column-count: 4; }
+    }
+    @media (min-width: 1200px) {
+      .contents { column-count: 5; }
+    }
+
+    /* মোবাইল অপটিমাইজেশন */
+    @media (max-width: 768px) {
+      .header {
+        height: 200px;
+      }
+
+      .main-profile {
+        top: 30px;
+        left: 15px;
+      }
+
+      .main-profile-pic {
+        width: 100px;
+        height: 100px;
+        border-width: 4px;
+      }
+
+      .name {
+        font-size: 18px;
+      }
+
+      .rating {
+        font-size: 12px;
+      }
+
+      .contents {
+        column-count: 2;
+        column-gap: 10px;
+      }
+
+      .image-content {
+        border-radius: 12px;
+      }
+
+      .profile-info {
+        align-items: center;
+      }
+
+      .contact-btn {
+        margin-left: 0;
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .contents {
+        column-count: 2;
+        padding: 0 5px;
+      }
+      .image-content {
+        border-radius: 10px;
+      }
+    }
+
+    /* Premium Text at Bottom */
+    .premium-footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header & Cover -->
+  <div class="header">
+    <div class="main-cover">
+      <img class="main-cover-pic" src="/images/main-cover.jpg" alt="Cover Photo" loading="lazy" />
+    </div>
+  </div>
+
+  <!-- Profile Section -->
+  <div class="main-profile">
+    <div class="profile-info">
+      <img class="main-profile-pic" src="/images/main-profile.jpg" alt="Profile Picture" loading="lazy" />
+      <div class="profile-name">
+        <h3 class="name">Bruna <i class="bi bi-patch-check-fill verified-icon"></i></h3>
+        <h4 class="rating"><i class="bi bi-bookmark-star-fill rating-icon"></i> 8.9 Rating</h4>
+        <div class="contact-btn">
+          <button onclick="openModal()">Contact</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pinterest Style Content Grid -->
+  <div class="container">
+    <div class="contents">
+      <img class="image-content" src="/images/contents/1st-content.jpg" alt="Premium content" loading="lazy" />
+      <img class="image-content" src="/images/contents/2nd-content.jpg" alt="Premium content" loading="lazy" />
+      <img class="image-content" src="/images/contents/3rd-content.jpg" alt="Premium content" loading="lazy" />
+      <img class="image-content" src="/images/contents/4th-content.jpg" alt="Premium content" loading="lazy" />
+      <img class="image-content" src="/images/contents/5th-content.jpg" alt="Premium content" loading="lazy" />
+      <img class="image-content" src="/images/contents/6th-content.jpg" alt="Premium content" loading="lazy" />
+    </div>
+  </div>
+
+  <!-- Premium Text at Bottom -->
+  <div class="premium-footer">
+    © 2025 Bruna | Exclusive Premium Content
+  </div>
+
+  <!-- Contact Modal -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">×</span>
+      <h3>Contact Me</h3>
+      <div class="social-links">
+        <a href="https://snapchat.com/add/bruna_official" target="_blank">
+          <i class="bi bi-snapchat"></i> Snapchat
+        </a>
+        <a href="https://wa.me/8801XXXXXXXXX" target="_blank">
+          <i class="bi bi-whatsapp"></i> WhatsApp
+        </a>
+        <a href="https://t.me/bruna_premium" target="_blank">
+          <i class="bi bi-telegram"></i> Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for Modal -->
+  <script>
+    function openModal() {
+      document.getElementById('contactModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('contactModal').style.display = 'none';
+    }
+
+    // Close modal if clicked outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('contactModal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>
