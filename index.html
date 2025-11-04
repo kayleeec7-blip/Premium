@@ -21,7 +21,6 @@
       padding: 0;
       box-sizing: border-box;
       -webkit-user-drag: none;
-      -moz-window-dragging: none;
       font-family: 'Open Sans', Arial, sans-serif;
     }
 
@@ -30,25 +29,13 @@
       color: #333;
     }
 
-    /* কভার পিকচার - ফেসবুক স্টাইল */
+    /* কভার */
     .header {
       position: relative;
       width: 100%;
       height: 350px;
       overflow: hidden;
-      /* Bottom থেকে Top-এ খুব হালকা সাদা গ্রেডিয়েন্ট - প্রিমিয়াম ভাইব */
-      background: linear-gradient(
-        to top,
-        rgba(255, 255, 255, 0.02) 0%,
-        rgba(255, 255, 255, 0.05) 30%,
-        rgba(255, 255, 255, 0.10) 60%,
-        rgba(255, 255, 255, 0.15) 100%
-      );
-    }
-
-    .main-cover {
-      width: 100%;
-      height: 100%;
+      background: linear-gradient(to top, rgba(255,255,255,0.02), rgba(255,255,255,0.15));
     }
 
     .main-cover-pic {
@@ -57,18 +44,13 @@
       object-fit: cover;
     }
 
-    /* প্রোফাইল পিকচার - কভারের উপরে */
+    /* প্রোফাইল: বামে পিক, তার ডানে টেক্সট (সুরে, কাছাকাছি) */
     .main-profile {
       position: absolute;
       top: 50px;
       left: 20px;
       z-index: 10;
-    }
-
-    .profile-info {
       display: flex;
-      align-items: center;
-      flex-direction: column;
       align-items: flex-start;
     }
 
@@ -76,34 +58,40 @@
       width: 160px;
       height: 160px;
       border-radius: 50%;
-      padding: 1px;
       border: 5px solid #1877f2;
       object-fit: cover;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
-    .profile-name {
+    .profile-info {
       color: white;
-      margin-left: 12px;
       text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      margin-left: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .name {
       font-size: 24px;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
     }
 
     .verified-icon {
       color: #1877f2;
       font-size: 18px;
       margin-left: 4px;
-      vertical-align: middle;
     }
 
     .rating {
       font-size: 14px;
       color: #FAF332;
       font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 6px;
     }
 
     .rating-icon {
@@ -111,10 +99,8 @@
       margin-right: 4px;
     }
 
-    /* Contact Button */
     .contact-btn {
-      margin-top: 10px;
-      margin-left: 12px;
+      margin-top: 12px;
     }
 
     .contact-btn button {
@@ -133,7 +119,91 @@
       background: #166fe5;
     }
 
-    /* Popup Modal */
+    /* কন্টেন্ট - কভারের উপরে সামান্য ভেসে আছে */
+    .container {
+      max-width: 1200px;
+      margin: -50px auto 20px;
+      padding: 0 15px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .contents {
+      column-count: 2;
+      column-gap: 15px;
+      padding: 10px 0;
+    }
+
+    .image-content {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      break-inside: avoid;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .image-content:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.18);
+    }
+
+    /* রেসপন্সিভ */
+    @media (min-width: 600px) { .contents { column-count: 3; } }
+    @media (min-width: 900px) { .contents { column-count: 4; } }
+    @media (min-width: 1200px) { .contents { column-count: 5; } }
+
+    /* মোবাইল - বামে পিক, তার ডানে টেক্সট (কাছাকাছি) */
+    @media (max-width: 768px) {
+      .header { height: 200px; }
+
+      .main-profile {
+        top: 20px;
+        left: 15px;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      .main-profile-pic {
+        width: 90px;
+        height: 90px;
+        border-width: 4px;
+      }
+
+      .profile-info {
+        margin-left: 12px;
+        align-items: flex-start;
+      }
+
+      .name { font-size: 16px; }
+      .rating { font-size: 11px; margin-top: 4px; }
+      .contact-btn { margin-top: 8px; }
+      .contact-btn button { padding: 6px 12px; font-size: 13px; }
+
+      .container {
+        margin: -35px auto 20px;
+        padding: 0 10px;
+      }
+
+      .contents { column-count: 2; column-gap: 10px; }
+      .image-content { border-radius: 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .main-profile { top: 15px; left: 10px; }
+      .main-profile-pic { width: 80px; height: 80px; }
+      .profile-info { margin-left: 10px; }
+      .name { font-size: 15px; }
+      .contact-btn button { padding: 5px 10px; font-size: 12px; }
+      .container { margin: -30px auto 20px; }
+      .image-content { border-radius: 10px; }
+    }
+
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -164,9 +234,7 @@
       color: #aaa;
     }
 
-    .close:hover {
-      color: #000;
-    }
+    .close:hover { color: #000; }
 
     .social-links a {
       display: block;
@@ -180,114 +248,9 @@
       transition: 0.3s;
     }
 
-    .social-links a:hover {
-      background: #e4e6eb;
-    }
+    .social-links a:hover { background: #e4e6eb; }
+    .social-links i { margin-right: 8px; font-size: 18px; }
 
-    .social-links i {
-      margin-right: 8px;
-      font-size: 18px;
-    }
-
-    /* কন্টেন্ট কন্টেইনার */
-    .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0 15px;
-    }
-
-    /* Pinterest-এর মতো Masonry Grid */
-    .contents {
-      column-count: 2;
-      column-gap: 15px;
-      padding: 10px 0;
-    }
-
-    .image-content {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 16px;
-      margin-bottom: 15px;
-      break-inside: avoid;
-      display: inline-block;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .image-content:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 12px 20px rgba(0,0,0,0.18);
-      z-index: 5;
-    }
-
-    /* রেসপন্সিভ গ্রিড */
-    @media (min-width: 600px) {
-      .contents { column-count: 3; }
-    }
-    @media (min-width: 900px) {
-      .contents { column-count: 4; }
-    }
-    @media (min-width: 1200px) {
-      .contents { column-count: 5; }
-    }
-
-    /* মোবাইল অপটিমাইজেশন */
-    @media (max-width: 768px) {
-      .header {
-        height: 200px;
-      }
-
-      .main-profile {
-        top: 30px;
-        left: 15px;
-      }
-
-      .main-profile-pic {
-        width: 100px;
-        height: 100px;
-        border-width: 4px;
-      }
-
-      .name {
-        font-size: 18px;
-      }
-
-      .rating {
-        font-size: 12px;
-      }
-
-      .contents {
-        column-count: 2;
-        column-gap: 10px;
-      }
-
-      .image-content {
-        border-radius: 12px;
-      }
-
-      .profile-info {
-        align-items: center;
-      }
-
-      .contact-btn {
-        margin-left: 0;
-        margin-top: 8px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .contents {
-        column-count: 2;
-        padding: 0 5px;
-      }
-      .image-content {
-        border-radius: 10px;
-      }
-    }
-
-    /* Premium Text at Bottom */
     .premium-footer {
       text-align: center;
       padding: 30px 15px;
@@ -299,80 +262,58 @@
 </head>
 <body>
 
-  <!-- Header & Cover -->
+  <!-- Cover -->
   <div class="header">
-    <div class="main-cover">
-      <img class="main-cover-pic" src="./images/main-cover.jpg" alt="Cover Photo" loading="lazy" />
-    </div>
+    <img class="main-cover-pic" src="./images/main-cover.jpg" alt="Cover" loading="lazy" />
   </div>
 
-  <!-- Profile Section -->
+  <!-- Profile: বামে পিক, তার ডানে → নাম → রেটিং → বাটন (কাছাকাছি, সুরে) -->
   <div class="main-profile">
+    <img class="main-profile-pic" src="./images/main-profile.jpg" alt="Profile" loading="lazy" />
     <div class="profile-info">
-      <img class="main-profile-pic" src="./images/main-profile.jpg" alt="Profile Picture" loading="lazy" />
-      <div class="profile-name">
-        <h3 class="name">Bruna <i class="bi bi-patch-check-fill verified-icon"></i></h3>
-        <h4 class="rating"><i class="bi bi-bookmark-star-fill rating-icon"></i> 8.9 Rating</h4>
-        <div class="contact-btn">
-          <button onclick="openModal()">Contact</button>
-        </div>
+      <h3 class="name">Bruna <i class="bi bi-patch-check-fill verified-icon"></i></h3>
+      <h4 class="rating"><i class="bi bi-bookmark-star-fill rating-icon"></i> 8.9 Rating</h4>
+      <div class="contact-btn">
+        <button onclick="openModal()">Contact</button>
       </div>
     </div>
   </div>
 
-  <!-- Pinterest Style Content Grid -->
+  <!-- Content Grid -->
   <div class="container">
     <div class="contents">
-      <img class="image-content" src="./images/contents/1st-content.jpg" alt="Premium content" loading="lazy" />
-      <img class="image-content" src="./images/contents/2nd-content.jpg" alt="Premium content" loading="lazy" />
-      <img class="image-content" src="./images/contents/3rd-content.jpg" alt="Premium content" loading="lazy" />
-      <img class="image-content" src="./images/contents/4th-content.jpg" alt="Premium content" loading="lazy" />
-      <img class="image-content" src="./images/contents/5th-content.jpg" alt="Premium content" loading="lazy" />
-      <img class="image-content" src="./images/contents/6th-content.jpg" alt="Premium content" loading="lazy" />
+      <img class="image-content" src="./images/contents/1st-content.jpg" alt="Content" loading="lazy" />
+      <img class="image-content" src="./images/contents/2nd-content.jpg" alt="Content" loading="lazy" />
+      <img class="image-content" src="./images/contents/3rd-content.jpg" alt="Content" loading="lazy" />
+      <img class="image-content" src="./images/contents/4th-content.jpg" alt="Content" loading="lazy" />
+      <img class="image-content" src="./images/contents/5th-content.jpg" alt="Content" loading="lazy" />
+      <img class="image-content" src="./images/contents/6th-content.jpg" alt="Content" loading="lazy" />
     </div>
   </div>
 
-  <!-- Premium Text at Bottom -->
+  <!-- Footer -->
   <div class="premium-footer">
     © 2025 Bruna | Exclusive Premium Content
   </div>
 
-  <!-- Contact Modal -->
+  <!-- Modal -->
   <div id="contactModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">×</span>
       <h3>Contact Me</h3>
       <div class="social-links">
-        <a href="https://snapchat.com/add/bruna_official" target="_blank">
-          <i class="bi bi-snapchat"></i> Snapchat
-        </a>
-        <a href="https://wa.me/8801XXXXXXXXX" target="_blank">
-          <i class="bi bi-whatsapp"></i> WhatsApp
-        </a>
-        <a href="https://t.me/bruna_premium" target="_blank">
-          <i class="bi bi-telegram"></i> Telegram
-        </a>
+        <a href="https://snapchat.com/add/bruna_official" target="_blank"><i class="bi bi-snapchat"></i> Snapchat</a>
+        <a href="https://wa.me/8801XXXXXXXXX" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+        <a href="https://t.me/bruna_premium" target="_blank"><i class="bi bi-telegram"></i> Telegram</a>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript for Modal -->
+  <!-- JS -->
   <script>
-    function openModal() {
-      document.getElementById('contactModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('contactModal').style.display = 'none';
-    }
-
-    // Close modal if clicked outside
-    window.onclick = function(event) {
-      const modal = document.getElementById('contactModal');
-      if (event.target == modal) {
-        modal.style.display = 'none';
-      }
-    }
+    function openModal() { document.getElementById('contactModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('contactModal').style.display = 'none'; }
+    window.onclick = e => { if (e.target == document.getElementById('contactModal')) closeModal(); }
   </script>
 
 </body>
