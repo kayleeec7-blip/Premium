@@ -97,7 +97,19 @@
             transform: translateY(0);
         }
 
-        /* Video Blur Reduced */
+        /* Video Fix: No Black Screen */
+        .video-container {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .premium-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #000;
+        }
         .video-blur {
             backdrop-filter: blur(4px);
             background: rgba(0,0,0,0.55);
@@ -198,8 +210,7 @@
         body { -webkit-touch-callout: none; }
 
         /* Fast Loading */
-        img, video { loading: lazy; }
-        video { will-change: transform; }
+        img { loading: lazy; }
     </style>
 </head>
 <body class="bg-black text-white font-body min-h-screen overflow-x-hidden" 
@@ -265,11 +276,22 @@
         </div>
     </section>
 
-    <!-- Premium Video Section -->
+    <!-- Premium Video Section - FIXED: No Black Screen -->
     <section class="container mx-auto px-4 py-12">
-        <div class="relative rounded-2xl overflow-hidden shadow-2xl">
-            <video autoplay loop muted playsinline class="w-full h-auto" controlslist="nodownload" disablePictureInPicture preload="auto">
+        <div class="video-container">
+            <video 
+                class="premium-video" 
+                autoplay 
+                loop 
+                muted 
+                playsinline 
+                preload="metadata"
+                poster="./images/video-poster.jpg"
+                onloadeddata="this.style.opacity=1"
+                style="opacity:0; transition:opacity 0.5s ease;"
+            >
                 <source src="/images/Video/premium-video.mp4" type="video/mp4">
+                <track kind="captions" src="" label="No captions">
                 Your browser does not support the video tag.
             </video>
             <div class="absolute inset-0 video-blur flex items-center justify-center pointer-events-none">
