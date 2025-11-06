@@ -97,18 +97,23 @@
             transform: translateY(0);
         }
 
-        /* Video Fix: No Black Screen */
+        /* Video Fix: No Black Screen + Auto Play Fix */
         .video-container {
             position: relative;
             border-radius: 1.5rem;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #000;
         }
         .premium-video {
             width: 100%;
             height: auto;
             display: block;
-            background: #000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .premium-video.playing {
+            opacity: 1;
         }
         .video-blur {
             backdrop-filter: blur(4px);
@@ -276,7 +281,7 @@
         </div>
     </section>
 
-    <!-- Premium Video Section - FIXED: No Black Screen -->
+    <!-- Premium Video Section - FULLY FIXED -->
     <section class="container mx-auto px-4 py-12">
         <div class="video-container">
             <video 
@@ -287,11 +292,10 @@
                 playsinline 
                 preload="metadata"
                 poster="./images/Video/video-poster.png"
-                onloadeddata="this.style.opacity=1"
-                style="opacity:0; transition:opacity 0.5s ease;"
+                controlslist="nodownload"
+                disablePictureInPicture
             >
                 <source src="./images/Video/premium-video.mp4" type="video/mp4">
-                <track kind="captions" src="" label="No captions">
                 Your browser does not support the video tag.
             </video>
             <div class="absolute inset-0 video-blur flex items-center justify-center pointer-events-none">
@@ -365,6 +369,7 @@
     </div>
 
     <script>
+        // Modal Functions
         function openModal() { document.getElementById('contactModal').classList.remove('hidden'); }
         function closeModal() { document.getElementById('contactModal').classList.add('hidden'); }
         function openGiftCardModal() { document.getElementById('giftCardModal').classList.remove('hidden'); }
@@ -438,6 +443,20 @@
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('dragstart', e => e.preventDefault());
+
+        // Video Auto Play + Fade In Fix
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.querySelector('.premium-video');
+            if (video) {
+                video.addEventListener('canplay', () => {
+                    video.classList.add('playing');
+                });
+                video.play().catch(() => {
+                    // Fallback: show poster if autoplay blocked
+                    video.poster = './images/Video/video-poster.png';
+                });
+            }
+        });
     </script>
 </body>
 </html>
